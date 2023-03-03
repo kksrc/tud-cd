@@ -1,4 +1,4 @@
-\ProvidesPackage{beamerouterthemetud}[2018/01/10 v3.0 Outer beamer theme in the Corporate Design of TU Dresden]
+\ProvidesPackage{beamerouterthemetud}[2023/03/03 v4.0 Outer beamer theme in the Corporate Design of TU Dresden 03.2022]
 % Vom Nutzer anzugebende / veraenderbare Namen und Bezeichnungen
 
 
@@ -39,7 +39,9 @@
 \newif\if@secondlogofooter\@secondlogofootertrue
 \DeclareOptionBeamer{secondlogofooter}{\@secondlogofootertrue\@secondlogotitlefalse\@ddcfooterfalse}
 
-\def\tudbeamer@outer@style{cd2018}
+% kksrc: default style CD 03.2022
+\def\tudbeamer@outer@style{cd2022}
+\DeclareOptionBeamer{cd2022}{\def\tudbeamer@outer@style{cd2022}}
 \DeclareOptionBeamer{cd2018}{\def\tudbeamer@outer@style{cd2018}}
 \DeclareOptionBeamer{cd2012ts}{\def\tudbeamer@outer@style{cd2012ts}}
 
@@ -188,12 +190,83 @@
   \setlength\beamer@rightmargin{\beamer@leftmargin}%
 }
 
+% kksrc: CD 03.2022
+\defbeamertemplate{page layout/cd2022}{default}[1]%
+[\ifdim\paperheight>0.6875\paperwidth]{%
+}[action]{%
+  \setlength\@tempdima{0.11\paperheight}%
+  \edef\tudbeamer@footheight{\the\@tempdima}%
+  \setlength\tudbeamerlogoleftmargin{0.04\paperwidth}%
+  \def\tudbeamerlogorightmargin{\tudbeamerlogoleftmargin}%
+  \setlength\tudbeamerlogoheight{0.048\paperheight}%
+  \pgfmathsetlength\tudbeamerlogowidth{\tudbeamerlogoheight * 2.57/0.75}%
+  \setlength\tudbeamerfootercontentwidth{0.452\paperwidth}%
+  % \setlength\tudbeamerfooterpagenumwidth{0.06\paperwidth}%
+  \edef\tudbeamer@barheight{0pt}%
+  % convenience
+  \setlength{\@tempdima}{%
+    \tudbeamerlogotopmargin+
+    \tudbeamerlogoheight+
+    \tudbeamer@barheight+0.01pt%
+  }%
+  \edef\tudbeamer@headheight{0pt}%
+  \pgfmathsetlength{\tudbeamerbackgroundheight}{%
+    \paperheight-\tudbeamer@headheight-\tudbeamer@footheight%
+  }%
+  \setlength\tudbeamerbackgroundwidth{\paperwidth}%
+  \def\tudbeamer@backgroundshadeangle{20}%
+  \def\tudbeamer@backgroundstart{\tudbeamer@footheight}%
+  \setlength{\tudbeamerfooterplacewidth}{0.25\linewidth}%
+  \setlength\tudbeamerlogotopmargin{0.0509\paperheight}%
+  %
+  #1
+  \setlength\beamer@leftmargin{\tudbeamerlogoleftmargin}%
+  \else
+  \setlength\beamer@leftmargin{\tudbeamerlogoleftmargin+0.3333\tudbeamerlogowidth}%
+  \fi
+  \setlength\beamer@rightmargin{\beamer@leftmargin}%
+}
+
 \defbeamertemplate*{page layout}{default}{%
 }[action]{%
   \setbeamertemplate{page layout/\tudbeamer@outer@style}[default]%
 }
 
 \defbeamertemplate{page layout/cd2018}{titlepage}{%
+}[action]{%
+  \def\tudbeamer@footheight{0pt}%
+  \setlength\tudbeamerlogotopmargin{0.0509\paperheight}%
+  \pgfmathsetlength\tudbeamerlogowidth{sqrt((\paperheight / 1cm)* (\paperwidth / 1cm)) * 0.1927cm}%
+  \pgfmathsetlength\tudbeamerlogoheight{\tudbeamerlogowidth*0.75/2.57}%
+  \setlength\@tempdima{0.025\paperheight}%
+  \edef\tudbeamer@barheight{\the\@tempdima}%
+  \pgfmathsetlength\tudbeamerlogoleftmargin{max(0.0717\paperwidth-0.3333*\tudbeamerlogowidth,
+    \tudbeamer@barheight,0.0407\paperheight)}%
+  \def\tudbeamerlogorightmargin{\tudbeamerlogoleftmargin}%
+  \setlength{\@tempdima}{%
+    \tudbeamerlogotopmargin+
+    \tudbeamerlogoheight+
+    \tudbeamer@barheight+0.01pt%
+  }%
+  \edef\tudbeamer@headheight{\the\@tempdima}%
+  \pgfmathsetlength{\tudbeamerbackgroundheight}{%
+    \paperheight-\tudbeamer@headheight%
+  }%
+  \setlength\tudbeamerbackgroundwidth{\paperwidth}%
+  \def\tudbeamer@backgroundshadeangle{20}%
+  \def\tudbeamer@backgroundstart{0pt}%
+  % convenience
+  \setlength\tudbeamerfootercontentwidth{0.452\paperwidth}%
+  %\setlength\tudbeamerfooterpagenumwidth{0.0579\paperwidth}%
+  \setlength{\tudbeamerfooterplacewidth}{0.25\linewidth}%
+  %
+  \setlength\beamer@leftmargin{\tudbeamerlogoleftmargin+0.3333\tudbeamerlogowidth}%
+  \setlength\beamer@rightmargin{\beamer@leftmargin}%
+  %
+}
+
+% kksrc: CD 03.2022
+\defbeamertemplate{page layout/cd2022}{titlepage}{%
 }[action]{%
   \def\tudbeamer@footheight{0pt}%
   \setlength\tudbeamerlogotopmargin{0.0509\paperheight}%
@@ -236,6 +309,12 @@
 \defbeamertemplate{page layout}{titlepage}{%
 }[action]{%
   \setbeamertemplate{page layout/\tudbeamer@outer@style}[titlepage]%
+}
+
+% kksrc: CD 03.2022
+\defbeamertemplate{page layout/cd2022}{partpage}{%
+}[action]{%
+  \setbeamertemplate{page layout/cd2022}[default][\iffalse]%
 }
 
 \defbeamertemplate{page layout/cd2012ts}{partpage}{%
@@ -383,11 +462,43 @@
     \par\vss
   }%
 }
+% kksrc: CD 03.2022
+\defbeamertemplate*{zweitlogo/titlepage secondlogo}{cd2022}{%
+  \@tempdima\tudbeamerlogoheight
+  \vbox to \tudbeamerlogoheight{%
+    \vss
+    \setbox\@tempboxa\hbox{%
+      \raisebox{-0.0555\@tempdima}{%
+        \includegraphics[height=1.111\@tempdima]{\beamer@tud@secondlogo}%
+        \hskip-0.0555\@tempdima%
+      }%
+    }%
+    \hsize=\wd\@tempboxa
+    \usebox\@tempboxa
+    \par\vss
+  }%
+}
 
 \defbeamertemplate*{zweitlogo/titlepage}{secondlogo}{%
   \usebeamertemplate{zweitlogo/titlepage secondlogo}%
 }
 \defbeamertemplate*{zweitlogo/titlepage ddc}{cd2018}{%
+  \@tempdima\tudbeamerlogoheight
+  \vbox to \tudbeamerlogoheight{%
+    \vss
+    \setbox\@tempboxa\hbox{%
+      \raisebox{-0.0555\@tempdima}{%
+        \includegraphics[height=1.111\@tempdima]{DDC_Logo_110x50_4C}%
+        \hskip-0.0555\@tempdima%
+      }%
+    }%
+    \hsize=\wd\@tempboxa
+    \usebox\@tempboxa
+    \par\vss
+  }%
+}
+% kksrc: CD 03.2022
+\defbeamertemplate*{zweitlogo/titlepage ddc}{cd2022}{%
   \@tempdima\tudbeamerlogoheight
   \vbox to \tudbeamerlogoheight{%
     \vss
@@ -545,6 +656,20 @@
   \vskip\tudbeamer@barheight
 }
 
+% kksrc: CD 03.2022
+\defbeamertemplate{headline/titlepage}{tud cd2022}{%
+  \vskip\tudbeamerlogotopmargin
+  \hskip\tudbeamerlogoleftmargin%
+  \usebeamercolor[fg]{logo}%
+  \includegraphics[width=\tudbeamerlogowidth]{\logo@default}%
+  \hfill
+  \usebeamertemplate{zweitlogo/titlepage}%
+  \hskip\tudbeamerlogorightmargin\hbox{}%
+  \par
+  \vskip\tudbeamer@barheight
+  \vskip\tudbeamer@barheight
+}
+
 
 \defbeamertemplate{background}{titlepage}{%
   \usebeamertemplate{background/titlepage}%
@@ -557,6 +682,11 @@
 }
 
 \defbeamertemplate{background/titlepage}{tud cd2018}{%
+  \usebeamertemplate{background/shaded}%
+}
+
+% kksrc: CD 03.2022
+\defbeamertemplate{background/titlepage}{tud cd2022}{%
   \usebeamertemplate{background/shaded}%
 }
 
@@ -668,6 +798,38 @@ height=\tudbeamerbackgroundheight]{}[action]{%
   }
 }
 
+% kksrc: CD 03.2022
+\defbeamertemplate*{background/shaded}{tud cd2022}{%
+    % The shades are automatically scaled as needed, when used in graphics context
+  % {\tudbeamer@title@backgroundshadelength}{color(0cm)=(red);color(\paperwidth)=(blue)}%
+  \usebeamercolor{normal text}%
+  \begin{pgfpicture}%
+    \pgfpathrectangle{%
+      \pgfpoint{0pt}{0pt}%
+    }{%
+      \pgfpoint{\paperwidth}{\paperheight}%
+    }%
+    \pgfusepath{use as bounding box}%
+    \begin{pgfscope}%
+      \pgfpathrectangle{%
+        \pgfpoint{0pt}{\tudbeamer@backgroundstart}%
+      }{%
+        % kksrc: blauer Streifen weg, Weißbereich
+        %\pgfpoint{\tudbeamerbackgroundwidth}{\tudbeamerbackgroundheight}%
+        \pgfpoint{\tudbeamerbackgroundwidth}{\tudbeamerbackgroundheight-\tudbeamer@barheight}%
+      }%
+      \pgfusepath{clip}%
+      \pgftransformshift{\pgfpoint{0pt}{\tudbeamer@backgroundstart}}%
+      \usebeamertemplate{tud background}%
+    \end{pgfscope}%
+    % kk: blauer Streifen weg
+    %\color{normal text.bg}%
+    %\pgfsetfillopacity{0.6}%
+    %\pgfpathrectangle{\pgfpoint{0}{\tudbeamer@backgroundstart+\tudbeamerbackgroundheight-\tudbeamer@barheight}}%
+    %{\pgfpoint{\paperwidth}{\tudbeamer@barheight}}%
+    %\pgfusepath{fill}%
+  \end{pgfpicture}%
+}
 
 \defbeamertemplate*{background/shaded}{tud cd2018}{%
     % The shades are automatically scaled as needed, when used in graphics context
@@ -732,6 +894,10 @@ height=\tudbeamerbackgroundheight]{}[action]{%
   \rule{\paperwidth}{0.3pt}\par
 }
 
+% kksrc: CD 03.2022
+\defbeamertemplate{headline}{tud header cd2022}{%
+}
+
 \defbeamertemplate{headline}{tud header cd2018}{%
 }
 
@@ -770,6 +936,11 @@ height=\tudbeamerbackgroundheight]{}[action]{%
 \defbeamertemplate{title in head/foot}{tud cd2018}{%
   {\def\\{, }\insertshorttitle}\strut
 }
+% kksrc: CD 03.2022
+\defbeamertemplate{title in head/foot}{tud cd2022}{%
+  {\def\\{, }\insertshorttitle}\strut
+}
+
 \defbeamertemplate*{title in head/foot}{tud}{%
 }[action]{%
   \setbeamertemplate{title in head/foot}[tud \tudbeamer@outer@style]
@@ -885,6 +1056,10 @@ height=\tudbeamerbackgroundheight]{}[action]{%
 
 \defbeamertemplate{footline}{titlepage}{%
   \usebeamertemplate{footline/titlepage}%
+}
+
+% kksrc: CD 03.2022
+\defbeamertemplate{footline/titlepage}{tud cd2022}{%
 }
 
 \defbeamertemplate{footline/titlepage}{tud cd2018}{%
@@ -1017,7 +1192,157 @@ height=\tudbeamerbackgroundheight]{}[action]{%
   }%
 }
 
+% kksrc: CD 03.2022
+\defbeamertemplate{footline}{tud pagenum cd2022}{%
+  \usebeamertemplate***{upper separation line foot}%
+  \vbox to \tudbeamer@footheight{%
+    \setlength\@tempdima{\tudbeamer@footheight-\tudbeamerlogoheight}%
+    \vskip 0.45\@tempdima%
+    \setbox\@tempboxa\hbox to \paperwidth{%
+      \usebeamerfont{footline}%
+      \hskip\tudbeamerlogoleftmargin
+      \vbox to \tudbeamerlogoheight {%
+        \hsize=\tudbeamerlogowidth
+        \usebeamercolor[fg]{logo}%
+        \includegraphics[width=\tudbeamerlogowidth]{\logo@default}%
+        \par
+      }%
+      \hfill
+      \vbox to \tudbeamerlogoheight{%
+        \hsize=1em\relax
+        \usebeamercolor[fg]{footline}%
+        \def\\{, }%
+        \setbox\@tempboxa\hbox{%
+          \usebeamertemplate***{title in head/foot}\strut
+        }%
+        \ifdim\wd\@tempboxa > \hsize\relax
+          \hsize=\wd\@tempboxa
+        \fi
+        \usebox\@tempboxa
+        \par
+        % \leavevmode
+        \setbox\@tempboxa\hbox{%
+          \usebeamertemplate***{institute in head/foot}%
+          \usebeamertemplate***{author in head/foot}\strut
+        }%
+        \ifdim\wd\@tempboxa > \hsize\relax
+          \hsize=\wd\@tempboxa
+        \fi
+        \usebox\@tempboxa
+        \par
+        \setbox\@tempboxa\hbox{%
+          \usebeamertemplate***{date/place in head/foot}\strut%
+          \usebeamertemplate***{date in head/foot}\strut
+        }%
+        \ifdim\wd\@tempboxa > \hsize\relax
+          \hsize=\wd\@tempboxa
+        \fi
+        \usebox\@tempboxa
+        \par%
+        \vss
+        \ifdim\hsize > \tudbeamerfootercontentwidth\relax
+          \hsize=\tudbeamerfootercontentwidth
+        \fi
+      }%
+      \hfill
+      \tudbeamermakefooterbox\tudbeamerfooterpagenumwidth{%
+        \setbox\@tempboxa\hbox{\usebeamertemplate***{page number in footline}}%
+        \@tempdima\wd\@tempboxa\relax
+        \ifdim \@tempdima>\tudbeamer@footerpagenumwidth
+          \global\tudbeamer@footerpagenumwidth\@tempdima
+          \global\tudbeamerfooterpagenumwidth\@tempdima
+        \fi
+        \hbox to \tudbeamerfooterpagenumwidth{\unhbox\@tempboxa\hfill}%
+      }%
+      \hfill
+      % kksrc: footline
+      %\setbox\@tempboxa\hbox{\usebeamertemplate{zweitlogo/titlepage}}%
+      \setbox\@tempboxa\hbox{\usebeamertemplate{zweitlogo/footline}}%
+      \vbox to \tudbeamerlogoheight{%
+        \hsize=\wd\@tempboxa
+        \vss
+        \usebox\@tempboxa\par
+        \vss
+      }
+      \hskip\tudbeamerlogoleftmargin
+    }%
+    %\vskip\ht\@tempboxa
+    \usebox\@tempboxa
+    \vfill
+  }%
+}
+
 \defbeamertemplate{footline}{tud nopagenum cd2018}{%
+  \usebeamertemplate***{upper separation line foot}%
+  \vbox to \tudbeamer@footheight{%
+    \setlength\@tempdima{\tudbeamer@footheight-\tudbeamerlogoheight}%
+    \vskip 0.45\@tempdima%
+    \setbox\@tempboxa\hbox to \paperwidth{%
+      \usebeamerfont{footline}%
+      \hskip\tudbeamerlogoleftmargin
+      \vbox to \tudbeamerlogoheight {%
+        \hsize=\tudbeamerlogowidth
+        \usebeamercolor[fg]{logo}%
+        \includegraphics[width=\tudbeamerlogowidth]{\logo@default}%
+        \par
+      }%
+      \hfill
+      \vbox to \tudbeamerlogoheight{%
+        \hsize=1em\relax
+        \usebeamercolor[fg]{footline}%
+        \def\\{, }%
+        \setbox\@tempboxa\hbox{%
+          \usebeamertemplate***{title in head/foot}\strut
+        }%
+        \ifdim\wd\@tempboxa > \hsize\relax
+          \hsize=\wd\@tempboxa
+        \fi
+        \usebox\@tempboxa
+        \par
+        % \leavevmode
+        \setbox\@tempboxa\hbox{%
+          \usebeamertemplate***{institute in head/foot}%
+          \usebeamertemplate***{author in head/foot}\strut
+        }%
+        \ifdim\wd\@tempboxa > \hsize\relax
+          \hsize=\wd\@tempboxa
+        \fi
+        \usebox\@tempboxa
+        \par
+        \setbox\@tempboxa\hbox{%
+          \usebeamertemplate***{date/place in head/foot}\strut%
+          \usebeamertemplate***{date in head/foot}\strut
+        }%
+        \ifdim\wd\@tempboxa > \hsize\relax
+          \hsize=\wd\@tempboxa
+        \fi
+        \usebox\@tempboxa
+        \par%
+        \vss
+        \ifdim\hsize > \tudbeamerfootercontentwidth\relax
+          \hsize=\tudbeamerfootercontentwidth
+        \fi
+      }%
+      \hfill
+      % kksrc: footline
+      %\setbox\@tempboxa\hbox{\usebeamertemplate{zweitlogo/titlepage}}%
+      \setbox\@tempboxa\hbox{\usebeamertemplate{zweitlogo/footline}}%
+      \vbox to \tudbeamerlogoheight{%
+        \hsize=\wd\@tempboxa
+        \vss
+        \usebox\@tempboxa\par
+        \vss
+      }
+      \hskip\tudbeamerlogoleftmargin
+    }%
+    %\vskip\ht\@tempboxa
+    \usebox\@tempboxa
+    \vfill
+  }%
+}
+
+% kksrc: CD 03.2022
+\defbeamertemplate{footline}{tud nopagenum cd2022}{%
   \usebeamertemplate***{upper separation line foot}%
   \vbox to \tudbeamer@footheight{%
     \setlength\@tempdima{\tudbeamer@footheight-\tudbeamerlogoheight}%
@@ -1176,6 +1501,28 @@ height=\tudbeamerbackgroundheight]{}[action]{%
   \usebeamerfont* {normal text}%
   \usebeamercolor*{normal text}%
 }
+
+% kksrc: CD 03.2022
+\defbeamertemplate*{frametitle}{tud cd2022}{%
+  \vskip 0.05\paperheight
+  \iftudbeameremptyoutput{\insertframetitle}{}{%
+    \usebeamercolor[fg]{frametitle}%
+    \usebeamerfont{frametitle}%
+    \insertframetitle
+    \iftudbeameremptyoutput\insertframesubtitle{}{%
+      \\%
+    }%
+  }%
+  \iftudbeameremptyoutput\insertframesubtitle{}{%
+    \vskip0.3ex
+    \usebeamercolor[fg]{framesubtitle}%
+    \usebeamerfont     {framesubtitle}%
+    \insertframesubtitle%
+  }%
+  \usebeamerfont* {normal text}%
+  \usebeamercolor*{normal text}%
+}
+
 %\beamertemplateshadingbackground{white}{white}
 \setbeamercolor{normal text}{bg=white}%
 \if@useHeader%
