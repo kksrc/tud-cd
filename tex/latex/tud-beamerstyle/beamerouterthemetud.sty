@@ -687,10 +687,10 @@
 
 % kksrc: CD 03.2022
 \defbeamertemplate{background/titlepage}{tud cd2022}{%
-  \usebeamertemplate{background/shaded}%
+  \usebeamertemplate{background/shaded/cd2022}%
 }
 
-\defbeamertemplate*{tud background shade}{default}[1][20]{%
+\defbeamertemplate{tud background shade}{tud cd2018}{%
   \usebeamercolor{titleshading}%
   \pgfdeclareverticalshading{tud titlepage background}%
   {100bp}{
@@ -703,16 +703,115 @@
   }{%
     \pgfpoint{\tudbeamerbackgroundwidth}{\tudbeamerbackgroundheight}%
   }%
-  \pgfshadepath{tud titlepage background}{#1}%
+  \pgfshadepath{tud titlepage background}{20} %#1}%
   % \pgfusepath{draw}%
   \pgfusepath{discard}%
 }
 
-\defbeamertemplate*{tud background}{shaded}[1][20]{%
+% kksrc: CD 03.2022
+\defbeamertemplate{tud background shade}{tud cd2022}{%
+  \usebeamercolor{titleshading}%
+  \pgfdeclareverticalshading{tud titlepage background}%
+  {100bp}{
+    % kksrc: shading invertieren: links oben dunkel -> rechts unten hell
+    color(0bp)=(bg);
+    color(25bp)=(bg);
+    color(75bp)=(fg);
+    color(100bp)=(fg)}%
+  \pgfpathrectangle{%
+    \pgfpoint{0pt}{0}%
+  }{%
+    \pgfpoint{\tudbeamerbackgroundwidth}{\tudbeamerbackgroundheight}%
+  }%
+  \pgfshadepath{tud titlepage background}{20} %#1}%
+  % \pgfusepath{draw}%
+  \pgfusepath{discard}%
+}
+
+\defbeamertemplate*{tud background}{shaded}{%
   \usebeamertemplate{tud background shade}%
 }[action]{%
-  \setbeamertemplate{tud background shade}[default][#1]%
+  \setbeamertemplate{tud background shade}[tud \tudbeamer@outer@style]%
 }
+
+% kksrc: CD 03.2022
+\defbeamertemplate*{background/shaded/cd2022}{tud cd2022}{%
+    % The shades are automatically scaled as needed, when used in graphics context
+  % {\tudbeamer@title@backgroundshadelength}{color(0cm)=(red);color(\paperwidth)=(blue)}%
+  \usebeamercolor{normal text}%
+  \begin{pgfpicture}%
+    \pgfpathrectangle{%
+      \pgfpoint{0pt}{0pt}%
+    }{%
+      \pgfpoint{\paperwidth}{\paperheight}%
+    }%
+    \pgfusepath{use as bounding box}%
+    \begin{pgfscope}%
+      \pgfpathrectangle{%
+        \pgfpoint{0pt}{\tudbeamer@backgroundstart}%
+      }{%
+        % kksrc: blauer Streifen weg, Weißbereich
+        %\pgfpoint{\tudbeamerbackgroundwidth}{\tudbeamerbackgroundheight}%
+        \pgfpoint{\tudbeamerbackgroundwidth}{\tudbeamerbackgroundheight-\tudbeamer@barheight}%
+      }%
+      \pgfusepath{clip}%
+      \pgftransformshift{\pgfpoint{0pt}{\tudbeamer@backgroundstart}}%
+      \usebeamertemplate{tud background}%
+    \end{pgfscope}%
+    % kk: blauer Streifen weg
+    %\color{normal text.bg}%
+    %\pgfsetfillopacity{0.6}%
+    %\pgfpathrectangle{\pgfpoint{0}{\tudbeamer@backgroundstart+\tudbeamerbackgroundheight-\tudbeamer@barheight}}%
+    %{\pgfpoint{\paperwidth}{\tudbeamer@barheight}}%
+    %\pgfusepath{fill}%
+  \end{pgfpicture}%
+}
+
+\defbeamertemplate*{background/shaded}{tud cd2018}{%
+    % The shades are automatically scaled as needed, when used in graphics context
+  % {\tudbeamer@title@backgroundshadelength}{color(0cm)=(red);color(\paperwidth)=(blue)}%
+  \usebeamercolor{normal text}%
+  \begin{pgfpicture}%
+%    \color{green}%
+ %   \pgfusepath{fill}%
+%    \pgfpathrectangle{\pgfpoint{0}{0}}{\pgfpoint{\paperwidth}{\tudbeamer@title@backgroundheight}}%
+%    \pgfusepath{clip}%
+    \pgfpathrectangle{%
+      \pgfpoint{0pt}{0pt}%
+    }{%
+      \pgfpoint{\paperwidth}{\paperheight}%
+    }%
+    \pgfusepath{use as bounding box}%
+    \begin{pgfscope}%
+      \pgfpathrectangle{%
+        \pgfpoint{0pt}{\tudbeamer@backgroundstart}%
+      }{%
+        \pgfpoint{\tudbeamerbackgroundwidth}{\tudbeamerbackgroundheight}%
+      }%
+      \pgfusepath{clip}%
+      \pgftransformshift{\pgfpoint{0pt}{\tudbeamer@backgroundstart}}%
+      \usebeamertemplate{tud background}%
+    \end{pgfscope}%
+    %\pgfsetadditionalshadetransform{\pgftransformshift{-0.25\paperwidth}{0pt}}%
+    % \begin{pgfscope}
+    %   \color{red}%
+    %   \pgftransformrotate{tudbeamer@backgroundshadeangle}%
+    %   \pgfpathrectangle{\pgfpoint{-\paperwidth}{0}}{\pgfpoint{-\paperwidth}{\tudbeamerbackgroundheight}}%
+    %   \pgfusepath{fill}%
+    % \end{pgfscope}
+    \color{normal text.bg}%
+    \pgfsetfillopacity{0.6}%
+    \pgfpathrectangle{\pgfpoint{0}{\tudbeamer@backgroundstart+\tudbeamerbackgroundheight-\tudbeamer@barheight}}%
+    {\pgfpoint{\paperwidth}{\tudbeamer@barheight}}%
+    \pgfusepath{fill}%
+  \end{pgfpicture}%
+  % \hbox to \paperwidth{%
+  %   \pgftransformrotate{\tudbeamer@backgroundshadeangle}%
+  %   \pgfuseshading{tud titlepage background}%
+  %   \vbox to \tudbeamerbackgroundheight{\hbox{\tudbeamerbackgroundheight}}%
+  % }
+}
+
 
 \defbeamertemplate*{tud background image}{default}[2][width=\tudbeamerbackgroundwidth,
 height=\tudbeamerbackgroundheight]{%
@@ -796,84 +895,6 @@ height=\tudbeamerbackgroundheight]{}[action]{%
       #4%
     \end{tikzpicture}%
   }
-}
-
-% kksrc: CD 03.2022
-\defbeamertemplate*{background/shaded}{tud cd2022}{%
-    % The shades are automatically scaled as needed, when used in graphics context
-  % {\tudbeamer@title@backgroundshadelength}{color(0cm)=(red);color(\paperwidth)=(blue)}%
-  \usebeamercolor{normal text}%
-  \begin{pgfpicture}%
-    \pgfpathrectangle{%
-      \pgfpoint{0pt}{0pt}%
-    }{%
-      \pgfpoint{\paperwidth}{\paperheight}%
-    }%
-    \pgfusepath{use as bounding box}%
-    \begin{pgfscope}%
-      \pgfpathrectangle{%
-        \pgfpoint{0pt}{\tudbeamer@backgroundstart}%
-      }{%
-        % kksrc: blauer Streifen weg, Weißbereich
-        %\pgfpoint{\tudbeamerbackgroundwidth}{\tudbeamerbackgroundheight}%
-        \pgfpoint{\tudbeamerbackgroundwidth}{\tudbeamerbackgroundheight-\tudbeamer@barheight}%
-      }%
-      \pgfusepath{clip}%
-      \pgftransformshift{\pgfpoint{0pt}{\tudbeamer@backgroundstart}}%
-      \usebeamertemplate{tud background}%
-    \end{pgfscope}%
-    % kk: blauer Streifen weg
-    %\color{normal text.bg}%
-    %\pgfsetfillopacity{0.6}%
-    %\pgfpathrectangle{\pgfpoint{0}{\tudbeamer@backgroundstart+\tudbeamerbackgroundheight-\tudbeamer@barheight}}%
-    %{\pgfpoint{\paperwidth}{\tudbeamer@barheight}}%
-    %\pgfusepath{fill}%
-  \end{pgfpicture}%
-}
-
-\defbeamertemplate*{background/shaded}{tud cd2018}{%
-    % The shades are automatically scaled as needed, when used in graphics context
-  % {\tudbeamer@title@backgroundshadelength}{color(0cm)=(red);color(\paperwidth)=(blue)}%
-  \usebeamercolor{normal text}%
-  \begin{pgfpicture}%
-%    \color{green}%
- %   \pgfusepath{fill}%
-%    \pgfpathrectangle{\pgfpoint{0}{0}}{\pgfpoint{\paperwidth}{\tudbeamer@title@backgroundheight}}%
-%    \pgfusepath{clip}%
-    \pgfpathrectangle{%
-      \pgfpoint{0pt}{0pt}%
-    }{%
-      \pgfpoint{\paperwidth}{\paperheight}%
-    }%
-    \pgfusepath{use as bounding box}%
-    \begin{pgfscope}%
-      \pgfpathrectangle{%
-        \pgfpoint{0pt}{\tudbeamer@backgroundstart}%
-      }{%
-        \pgfpoint{\tudbeamerbackgroundwidth}{\tudbeamerbackgroundheight}%
-      }%
-      \pgfusepath{clip}%
-      \pgftransformshift{\pgfpoint{0pt}{\tudbeamer@backgroundstart}}%
-      \usebeamertemplate{tud background}%
-    \end{pgfscope}%
-    %\pgfsetadditionalshadetransform{\pgftransformshift{-0.25\paperwidth}{0pt}}%
-    % \begin{pgfscope}
-    %   \color{red}%
-    %   \pgftransformrotate{tudbeamer@backgroundshadeangle}%
-    %   \pgfpathrectangle{\pgfpoint{-\paperwidth}{0}}{\pgfpoint{-\paperwidth}{\tudbeamerbackgroundheight}}%
-    %   \pgfusepath{fill}%
-    % \end{pgfscope}
-    \color{normal text.bg}%
-    \pgfsetfillopacity{0.6}%
-    \pgfpathrectangle{\pgfpoint{0}{\tudbeamer@backgroundstart+\tudbeamerbackgroundheight-\tudbeamer@barheight}}%
-    {\pgfpoint{\paperwidth}{\tudbeamer@barheight}}%
-    \pgfusepath{fill}%
-  \end{pgfpicture}%
-  % \hbox to \paperwidth{%
-  %   \pgftransformrotate{\tudbeamer@backgroundshadeangle}%
-  %   \pgfuseshading{tud titlepage background}%
-  %   \vbox to \tudbeamerbackgroundheight{\hbox{\tudbeamerbackgroundheight}}%
-  % }
 }
 
 \defbeamertemplate{headline}{tud header cd2012ts}{%
