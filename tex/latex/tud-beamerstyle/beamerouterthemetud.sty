@@ -1000,7 +1000,9 @@ height=\tudbeamerbackgroundheight]{}[action]{%
         \hbox to \tudbeamerfooterpagenumwidth{\unhbox\@tempboxa\hfill}%
       }%
       \hfill
-      \setbox\@tempboxa\hbox{\usebeamertemplate{zweitlogo/titlepage}}%
+      % kksrc: footline
+      %\setbox\@tempboxa\hbox{\usebeamertemplate{zweitlogo/titlepage}}%
+      \setbox\@tempboxa\hbox{\usebeamertemplate{zweitlogo/footline}}%
       \vbox to \tudbeamerlogoheight{%
         \hsize=\wd\@tempboxa
         \vss
@@ -1067,7 +1069,9 @@ height=\tudbeamerbackgroundheight]{}[action]{%
         \fi
       }%
       \hfill
-      \setbox\@tempboxa\hbox{\usebeamertemplate{zweitlogo/titlepage}}%
+      % kksrc: footline
+      %\setbox\@tempboxa\hbox{\usebeamertemplate{zweitlogo/titlepage}}%
+      \setbox\@tempboxa\hbox{\usebeamertemplate{zweitlogo/footline}}%
       \vbox to \tudbeamerlogoheight{%
         \hsize=\wd\@tempboxa
         \vss
