@@ -31,6 +31,14 @@
 \DeclareOptionBeamer{ddcfooter}{\@ddcfootertrue\@ddcfalse}
 \DeclareOptionBeamer{noddc}{\@ddcfooterfalse\@ddcfalse}
 
+% kksrc: Zweitlogo auf Titelseite und / oder Fußzeile
+\newif\if@secondlogo\@secondlogotrue
+\DeclareOptionBeamer{secondlogo}{\def\beamer@tud@secondlogo{#1}\@secondlogofooterfalse}
+\newif\if@secondlogotitle\@secondlogotitlefalse
+\DeclareOptionBeamer{secondlogotitle}{\@secondlogotitletrue}
+\newif\if@secondlogofooter\@secondlogofootertrue
+\DeclareOptionBeamer{secondlogofooter}{\@secondlogofootertrue\@secondlogotitlefalse\@ddcfooterfalse}
+
 \def\tudbeamer@outer@style{cd2018}
 \DeclareOptionBeamer{cd2018}{\def\tudbeamer@outer@style{cd2018}}
 \DeclareOptionBeamer{cd2012ts}{\def\tudbeamer@outer@style{cd2012ts}}
@@ -358,6 +366,27 @@
 \defbeamertemplate{zweitlogo/titlepage}{logofile}[1]{%
   \includegraphics[height=\tudbeamerlogoheight]{#1}%
 }
+
+% kksrc: Zweitlogo
+\defbeamertemplate*{zweitlogo/titlepage secondlogo}{cd2018}{%
+  \@tempdima\tudbeamerlogoheight
+  \vbox to \tudbeamerlogoheight{%
+    \vss
+    \setbox\@tempboxa\hbox{%
+      \raisebox{-0.0555\@tempdima}{%
+        \includegraphics[height=1.111\@tempdima]{\beamer@tud@secondlogo}%
+        \hskip-0.0555\@tempdima%
+      }%
+    }%
+    \hsize=\wd\@tempboxa
+    \usebox\@tempboxa
+    \par\vss
+  }%
+}
+
+\defbeamertemplate*{zweitlogo/titlepage}{secondlogo}{%
+  \usebeamertemplate{zweitlogo/titlepage secondlogo}%
+}
 \defbeamertemplate*{zweitlogo/titlepage ddc}{cd2018}{%
   \@tempdima\tudbeamerlogoheight
   \vbox to \tudbeamerlogoheight{%
@@ -404,6 +433,23 @@
     \par\vss
   }%
 }
+
+% kksrc: Zweitlogo in der Fußzeile statt DDC Logo
+\defbeamertemplate{zweitlogo/footline}{secondlogo}{%
+  \def\logoheight{\tudbeamerlogoheight}%
+  \vbox to \logoheight{%
+    \vss
+    \setbox\@tempboxa\hbox{%
+      % kksrc: nicht größer als TU Logo
+      \includegraphics[height=1.0\logoheight]{\beamer@tud@secondlogo}%
+      \hskip-0.0555\logoheight%
+    }%
+    \hsize=\wd\@tempboxa
+    \usebox\@tempboxa
+    \par\vss
+  }%
+}
+
 \defbeamertemplate{zweitlogo/footline}{freeform}[1]{%
   \def\logoheight{\tudbeamerlogoheight}%
   #1%
@@ -425,16 +471,33 @@
 \if@ddc
 \setbeamertemplate{zweitlogo/titlepage}[ddc]
 \setbeamertemplate{zweitlogo/headline}[ddc]
+%% kksrc: footline
+\setbeamertemplate{zweitlogo/footline}[ddc]
 \else
 \if@ddcfooter
 \setbeamertemplate{zweitlogo/titlepage}[ddc]
 \setbeamertemplate{zweitlogo/headline}[ddc]
+%% kksrc: footline
+\setbeamertemplate{zweitlogo/footline}[ddc]
 \else
 \setbeamertemplate{zweitlogo/titlepage}[default]
 \setbeamertemplate{zweitlogo/headline}[default]
+%% kksrc: footline
+\setbeamertemplate{zweitlogo/footline}[default]
 \fi
 \fi
-
+% kksrc: Zweitlogo
+\if@secondlogotitle
+\setbeamertemplate{zweitlogo/titlepage}[secondlogo]
+\setbeamertemplate{zweitlogo/headline}[secondlogo]
+\setbeamertemplate{zweitlogo/footline}[secondlogo]
+\else
+\if@secondlogofooter
+\setbeamertemplate{zweitlogo/titlepage}[ddc]
+\setbeamertemplate{zweitlogo/headline}[ddc]
+\setbeamertemplate{zweitlogo/footline}[secondlogo]
+\fi
+\fi
 
 \defbeamertemplate{headline}{titlepage}{%
   \usebeamertemplate{headline/titlepage}%

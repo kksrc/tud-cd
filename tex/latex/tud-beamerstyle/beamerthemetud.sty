@@ -18,6 +18,13 @@
 \DeclareOptionBeamer{noddc}{\PassOptionsToPackage{noddc}{beamerouterthemetud}}
 \DeclareOptionBeamer{ddc}{\PassOptionsToPackage{ddc}{beamerouterthemetud}}
 \DeclareOptionBeamer{ddcfooter}{\PassOptionsToPackage{ddcfooter}{beamerouterthemetud}}
+% kksrc: Zweitlogo auf Titelseite und in der Fußzeile anstatt DDC Logo
+% TUD CD 03/2022: Folie 19
+% https://tu-dresden.de/intern/services-und-hilfe/ressourcen/dateien/kommunizieren_und_publizieren/corporate-design/cd-vorlagen/Powerpoint-Vorlagen/2022-03_TUD_PPT_16zu9_Vorlage.pdf?lang=de
+\DeclareOptionBeamer{secondlogotitle}{\PassOptionsToPackage{secondlogotitle}{beamerouterthemetud}}
+\DeclareOptionBeamer{secondlogofooter}{\PassOptionsToPackage{secondlogofooter}{beamerouterthemetud}}
+\DeclareOptionBeamer{secondlogo}{\PassOptionsToPackage{secondlogo=#1}{beamerouterthemetud}}
+
 \DeclareOptionBeamer{cd2012ts}{
   \PassOptionsToPackage{cd2012ts}{beamerouterthemetud}
   \PassOptionsToPackage{cd2012ts}{beamerinnerthemetud}
