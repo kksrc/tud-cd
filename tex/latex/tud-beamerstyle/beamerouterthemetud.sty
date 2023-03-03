@@ -396,7 +396,8 @@
 \defbeamertemplate*{institut/titlepage}{default}{%
   \iftudbeameremptyoutput{\@institut}{}{%
     \@institut
-    \iftudbeameremptyoutput{\@professur}{}{, }%
+    %\iftudbeameremptyoutput{\@professur}{}{, }%
+    \iftudbeameremptyoutput{\@professur}{}{\linebreak}%
   }%
   \strut
 }
